@@ -1,6 +1,6 @@
-function countStudents (path) {
-  const fs = require('fs');
+const fs = require('fs');
 
+function countStudents(path) {
   try {
     const data = fs.readFileSync(path, 'utf-8');
     const lines = data.toString().split('\n');
@@ -30,8 +30,8 @@ function countStudents (path) {
       if (key !== 'field') {
         console.log(
           `Number of students in ${key}: ${value}. List: ${students[key].join(
-            ', '
-          )}`
+            ', ',
+          )}`,
         );
       }
     }
