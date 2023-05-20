@@ -1,5 +1,5 @@
-const http = require("http");
-const { readFile } = require("fs");
+const http = require('http');
+const { readFile } = require('fs');
 
 const port = 1245;
 
@@ -10,13 +10,13 @@ function countStudents(path) {
   return new Promise((resolve, reject) => {
     readFile(path, (error, data) => {
       if (error) {
-        reject(Error("Cannot load the database"));
+        reject(Error('Cannot load the database'));
       } else {
-        const lines = data.toString().split("\n");
+        const lines = data.toString().split('\n');
         lines.forEach((line) => {
           if (line) {
             length += 1;
-            const field = line.toString().split(",");
+            const field = line.toString().split(',');
             if (Object.hasOwnProperty.call(students, field[3])) {
               students[field[3]].push(field[0]);
             } else {
@@ -30,13 +30,13 @@ function countStudents(path) {
           }
         });
 
-        let output = "";
+        let output = '';
         output += `Number of students: ${length - 1}\n`;
         for (const [key, value] of Object.entries(fields)) {
-          if (key !== "field") {
+          if (key !== 'field') {
             output += `Number of students in ${key}: ${value}. List: ${students[
               key
-            ].join(", ")}\n`;
+            ].join(', ')}\n`;
           }
         }
         resolve(output);
@@ -47,14 +47,14 @@ function countStudents(path) {
 
 const app = http.createServer((req, res) => {
   res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  if (req.url === "/") {
-    res.end("Hello Holberton School!");
-  } else if (req.url === "/students") {
-    res.write("This is the list of our students\n");
+  res.setHeader('Content-Type', 'text/plain');
+  if (req.url === '/') {
+    res.end('Hello Holberton School!');
+  } else if (req.url === '/students') {
+    res.write('This is the list of our students\n');
     countStudents(process.argv[2].toString())
       .then((response) => {
-        console.log("This is it: ", response);
+        console.log('This is it: ', response);
         res.write(response);
         res.end();
       })
@@ -64,6 +64,6 @@ const app = http.createServer((req, res) => {
   }
 });
 
-app.listen(port, "localhost");
+app.listen(port, 'localhost');
 
 module.exports = app;
